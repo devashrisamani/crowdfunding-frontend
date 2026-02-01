@@ -11,7 +11,7 @@ const myRouter = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: "/", element: <HomePage /> },
-      { path: "/fundraiser", element: <FundraiserPage /> },
+      { path: "/fundraiser/:id", element: <FundraiserPage /> },
     ],
   },
 ]);
