@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import getFundraisers from "../api/get-fundraisers";
 
+// export default means that we can export it as a function so that we can use it somewhere in the code using import function
 export default function useFundraisers() {
   // Here we use the useState hook to create a state variable called fundraisers and a function to update it called setFundraisers. We initialize the state variable with an empty array.
   const [fundraisers, setFundraisers] = useState([]);
