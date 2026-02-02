@@ -6,10 +6,13 @@ function HomePage() {
   const { fundraisers } = useFundraisers();
   console.log(fundraisers);
   return (
-    <div id="fundraiser-list">
-      {fundraisers.map((fundraiserData, key) => {
-        return <FundraiserCard key={key} fundraiserData={fundraiserData} />;
-      })}
+    <div className="home-page">
+      <h1 className="page-title">Fundraisers</h1>
+      <div id="fundraiser-list">
+        {fundraisers.map((fundraiserData, key) => {
+          return <FundraiserCard key={key} fundraiserData={fundraiserData} />;
+        })}
+      </div>
     </div>
   );
 }
