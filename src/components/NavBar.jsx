@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, NavLink } from "react-router-dom";
 import "./NavBar.css";
 
 function NavBar() {
@@ -12,11 +12,21 @@ function NavBar() {
 
         {/* New menu items (added, not replacing anything) */}
         <div className="nav-links">
-          <Link to="/">Home</Link>
-          <Link to="/create">Create Fundraiser</Link>
-          <Link to="/profile">Profile</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
+          <NavLink to="/" className="nav-link">
+            Home
+          </NavLink>
+          <NavLink to="/create" className="nav-link">
+            Create Fundraiser
+          </NavLink>
+          <NavLink to="/profile" className="nav-link">
+            Profile
+          </NavLink>
+          <NavLink to="/login" className="nav-link">
+            Login
+          </NavLink>
+          <NavLink to="/register" className="nav-link">
+            Register
+          </NavLink>
         </div>
       </nav>
     </div>

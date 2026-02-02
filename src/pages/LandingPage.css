@@ -1,0 +1,41 @@
+.landing-hero {
+  position: relative;
+  height: 90vh;
+  overflow: hidden;
+}
+
+.landing-hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.landing-hero-content {
+  position: absolute;
+  inset: 0;
+
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-xl);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  color: white;
+  background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45));
+}
+
+.landing-hero-actions {
+  margin-top: var(--space-md);
+  display: flex;
+  gap: var(--space-sm);
+}
+
+/* Allows a section to escape main-content padding */
+.full-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
