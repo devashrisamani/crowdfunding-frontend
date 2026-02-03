@@ -1,7 +1,17 @@
-import { Outlet, Link, NavLink } from "react-router-dom";
+import { Outlet, Link, NavLink, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/use-auth.js";
 import "./NavBar.css";
 
 function NavBar() {
+  const navigate = useNavigate();
+  const { auth, setAuth } = useAuth();
+
+  const handleLogout = () => {
+    window.localStorage.removeItem("token");
+    setAuth({ token: null });
+    navigate("/login");
+  };
+
   return (
     <div>
       <nav className="nav">
@@ -21,12 +31,20 @@ function NavBar() {
           <NavLink to="/profile" className="nav-link">
             Profile
           </NavLink>
-          <NavLink to="/login" className="nav-link">
-            Login
-          </NavLink>
-          <NavLink to="/register" className="nav-link">
-            Register
-          </NavLink>
+          {auth?.token ? (
+            <button type="button" className="nav-link" onClick={handleLogout}>
+              Logout
+            </button>
+          ) : (
+            <>
+              <NavLink to="/login" className="nav-link">
+                Login
+              </NavLink>
+              <NavLink to="/register" className="nav-link">
+                Register
+              </NavLink>
+            </>
+          )}
         </div>
       </nav>
     </div>
