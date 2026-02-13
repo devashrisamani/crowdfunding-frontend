@@ -8,7 +8,9 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import CreatePage from "./pages/CreatePage.jsx";
+import EditFundraiserPage from "./pages/EditFundraiserPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { AuthProvider } from "./components/AuthProvider.jsx";
 import "./main.css";
@@ -39,6 +41,15 @@ const myRouter = createBrowserRouter([
         ),
       },
       { path: "/fundraiser/:id", element: <FundraiserPage /> },
+      {
+        path: "/fundraiser/:id/edit",
+        element: (
+          <ProtectedRoute>
+            <EditFundraiserPage />
+          </ProtectedRoute>
+        ),
+      },
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
 ]);

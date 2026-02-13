@@ -1,5 +1,6 @@
 import { useState } from "react";
 import postLogin from "../api/post-login.js";
+import getCurrentUser from "../api/get-current-user.js";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/use-auth.js";
 
@@ -31,12 +32,23 @@ function LoginForm() {
 
     setIsSubmitting(true);
     try {
+      // 1) Login and get token
       const response = await postLogin(
         credentials.username,
         credentials.password,
       );
-      window.localStorage.setItem("token", response.token);
-      setAuth({ token: response.token });
+
+      const token = response.token;
+      window.localStorage.setItem("token", token);
+
+      // 2) Fetch current user details using the token
+      const user = await getCurrentUser(token);
+      // user should look like: { id, username, email, ... }
+
+      // 3) Store both token and user in auth context
+      setAuth({ token, user });
+
+      // 4) Redirect to home (or wherever you like)
       navigate("/");
     } catch (err) {
       setErrorMessage(err.message ?? "Login failed");

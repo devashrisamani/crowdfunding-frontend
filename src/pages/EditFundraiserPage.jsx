@@ -1,11 +1,14 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../hooks/use-auth.js";
-import postFundraiser from "../api/post-fundraiser.js";
+import useFundraiser from "../hooks/use-fundraiser.js";
+import putFundraiser from "../api/put-fundraiser.js";
 
-function CreatePage() {
+function EditFundraiserPage() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const { auth } = useAuth();
+  const { fundraiser, isLoading, error } = useFundraiser(id);
 
   const [form, setForm] = useState({
     title: "",
@@ -18,20 +21,62 @@ function CreatePage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  if (!auth?.token) {
+  useEffect(() => {
+    if (fundraiser) {
+      setForm({
+        title: fundraiser.title || "",
+        description: fundraiser.description || "",
+        image: fundraiser.image || "",
+        goal: fundraiser.goal != null ? String(fundraiser.goal) : "",
+        is_open: Boolean(fundraiser.is_open),
+      });
+    }
+  }, [fundraiser]);
+
+  if (isLoading) {
     return (
       <div style={{ padding: "1rem" }}>
-        <p>You need to be logged in to create a fundraiser.</p>
+        <p>Loading fundraiser...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ padding: "1rem" }}>
+        <p style={{ color: "red" }}>
+          {error.message || "Error loading fundraiser."}
+        </p>
+      </div>
+    );
+  }
+
+  if (!fundraiser) {
+    return (
+      <div style={{ padding: "1rem" }}>
+        <p>Fundraiser not found.</p>
+      </div>
+    );
+  }
+
+  const isOwner =
+    auth?.user && fundraiser.owner && fundraiser.owner === auth.user.id;
+
+  if (!isOwner) {
+    return (
+      <div style={{ padding: "1rem" }}>
+        <h2>Edit Fundraiser</h2>
+        <p>You don&apos;t have permission to edit this fundraiser.</p>
       </div>
     );
   }
 
   const handleChange = (event) => {
-    const { id, value, type, checked } = event.target;
+    const { id: fieldId, value, type, checked } = event.target;
 
     setForm((prev) => ({
       ...prev,
-      [id]: type === "checkbox" ? checked : value,
+      [fieldId]: type === "checkbox" ? checked : value,
     }));
     setErrorMessage("");
   };
@@ -61,21 +106,21 @@ function CreatePage() {
     setIsSubmitting(true);
 
     try {
-      const newFundraiser = await postFundraiser(auth.token, {
+      const updated = await putFundraiser(auth.token, fundraiser.id, {
         title: form.title,
         description: form.description,
-        image: form.image || undefined,
+        image: form.image,
         goal: goalNumber,
         is_open: form.is_open,
       });
 
-      if (newFundraiser?.id) {
-        navigate(`/fundraiser/${newFundraiser.id}`);
+      if (updated?.id) {
+        navigate(`/fundraiser/${updated.id}`);
       } else {
-        navigate("/");
+        navigate(`/fundraiser/${fundraiser.id}`);
       }
     } catch (err) {
-      setErrorMessage(err.message || "Error creating fundraiser.");
+      setErrorMessage(err.message || "Error updating fundraiser.");
     } finally {
       setIsSubmitting(false);
     }
@@ -83,7 +128,7 @@ function CreatePage() {
 
   return (
     <div style={{ padding: "1rem" }}>
-      <h2>Create Fundraiser</h2>
+      <h2>Edit Fundraiser</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="title">Title</label>
@@ -147,13 +192,11 @@ function CreatePage() {
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
         <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Creating..." : "Create fundraiser"}
+          {isSubmitting ? "Saving..." : "Save changes"}
         </button>
       </form>
     </div>
   );
 }
 
-export default CreatePage;
-
-
+export default EditFundraiserPage;
