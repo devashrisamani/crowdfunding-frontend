@@ -44,7 +44,7 @@ function RegisterForm() {
         email: form.email || undefined,
       });
 
-      // If your API returns a token on registration, store it; otherwise redirect to login
+      // If API returns a token, stay; otherwise send user to login.
       if (response?.token) {
         window.localStorage.setItem("token", response.token);
         setAuth({ token: response.token });
@@ -54,7 +54,6 @@ function RegisterForm() {
       }
     } catch (err) {
       const msg = err.message ?? "Registration failed";
-      // Show the API error when we have one; otherwise give a helpful hint
       if (msg === "Error trying to register" || msg === "Registration failed") {
         setErrorMessage(
           "Registration failed. Common reasons: this username or email is already in use, or the password doesn’t meet the requirements. Please try again.",

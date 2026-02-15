@@ -95,7 +95,6 @@ function EditFundraiserPage() {
     const missingFields = [];
     if (!form.title.trim()) missingFields.push("title");
     if (!form.description.trim()) missingFields.push("description");
-    if (!form.image.trim()) missingFields.push("image URL");
     if (!form.goal) missingFields.push("goal");
 
     if (missingFields.length > 0) {
@@ -117,7 +116,7 @@ function EditFundraiserPage() {
       const updated = await putFundraiser(auth.token, fundraiser.id, {
         title: form.title,
         description: form.description,
-        image: form.image,
+        image: form.image.trim() || "/placeholder.jpg",
         goal: goalNumber,
         is_open: form.is_open,
       });
@@ -167,14 +166,13 @@ function EditFundraiserPage() {
           </div>
 
           <div className="form-field">
-            <label htmlFor="image">Image URL</label>
+            <label htmlFor="image">Image URL (optional)</label>
             <input
               id="image"
               type="url"
               value={form.image}
               onChange={handleChange}
-              placeholder="https://example.com/image.jpg"
-              required
+              placeholder="Leave blank to use placeholder image"
             />
           </div>
 

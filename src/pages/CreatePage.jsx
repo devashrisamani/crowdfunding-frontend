@@ -7,7 +7,7 @@ function CreatePage() {
   const navigate = useNavigate();
   const { auth } = useAuth();
 
-  // Form state: one object for all fields so we can update with handleChange
+  // Form state: one object for all fields so I can update with handleChange
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -42,11 +42,10 @@ function CreatePage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Check required fields before calling the API
+    // Check required fields before calling the API (image is optional – we use placeholder if empty)
     const missingFields = [];
     if (!form.title.trim()) missingFields.push("title");
     if (!form.description.trim()) missingFields.push("description");
-    if (!form.image.trim()) missingFields.push("image URL");
     if (!form.goal) missingFields.push("goal");
 
     if (missingFields.length > 0) {
@@ -68,7 +67,7 @@ function CreatePage() {
       const newFundraiser = await postFundraiser(auth.token, {
         title: form.title,
         description: form.description,
-        image: form.image || undefined,
+        image: form.image.trim() || "/placeholder.jpg",
         goal: goalNumber,
         is_open: form.is_open,
       });
@@ -118,14 +117,13 @@ function CreatePage() {
           </div>
 
           <div className="form-field">
-            <label htmlFor="image">Image URL</label>
+            <label htmlFor="image">Image URL (optional)</label>
             <input
               id="image"
               type="url"
               value={form.image}
               onChange={handleChange}
-              placeholder="https://example.com/image.jpg"
-              required
+              placeholder="Leave blank to use placeholder image"
             />
           </div>
 

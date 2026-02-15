@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import getFundraiser from "../api/get-fundraiser";
 
+// Fetches a single fundraiser by id; refetch when id changes.
 export default function useFundraiser(fundraiserId) {
   const [fundraiser, setFundraiser] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -11,7 +12,6 @@ export default function useFundraiser(fundraiserId) {
     setIsLoading(true);
     setError(undefined);
 
-    // Passing the fundraiserId to the getFundraiser function.
     getFundraiser(fundraiserId)
       .then((data) => {
         setFundraiser(data);
@@ -24,11 +24,10 @@ export default function useFundraiser(fundraiserId) {
   };
 
   useEffect(() => {
-    // Passing fundraiserId to the dependency array so that the hook will re-run if the fundraiserId changes.
     if (fundraiserId) {
       fetchFundraiser();
     }
-  }, [fundraiserId]);
+  }, [fundraiserId]); // Refetch when navigating to a different fundraiser.
 
   return { fundraiser, isLoading, error, refetch: fetchFundraiser };
 }

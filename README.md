@@ -11,6 +11,20 @@ A React frontend for **Leaf a Mark**, a crowdfunding platform for sustainability
 - **Frontend:** [front end link]
 - **Backend API:** `https://crowdfundingapp-6177aeba64e5.herokuapp.com` (Heroku)
 
+### Page links (Netlify)
+
+| Page              | Path                  | Link |
+| ----------------- | --------------------- | ---- |
+| About / Welcome   | `/welcome`            |      |
+| Home (Fundraisers) | `/`                   |      |
+| Login             | `/login`              |      |
+| Register          | `/register`           |      |
+| Create fundraiser  | `/create`             |      |
+| Profile           | `/profile`            |      |
+| Fundraiser detail  | `/fundraiser/:id`    |      |
+| Edit fundraiser   | `/fundraiser/:id/edit` |    |
+| 404               | (any unknown path)    |      |
+
 ---
 
 ## Screenshots

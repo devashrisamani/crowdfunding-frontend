@@ -20,6 +20,9 @@ function NavBar() {
         </Link>
 
         <div className="nav-links">
+          <NavLink to="/welcome" className="nav-link">
+            About
+          </NavLink>
           <NavLink to="/" className="nav-link">
             Fundraisers
           </NavLink>
