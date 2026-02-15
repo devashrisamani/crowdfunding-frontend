@@ -1,6 +1,6 @@
 import { handleJsonResponse } from "./handle-json-response.js";
 
-// Creates a new fundraiser
+// Sends a POST request to create a fundraiser. Backend sets owner from the token.
 async function postFundraiser(token, { title, description, image, goal, is_open }) {
   const url = `${import.meta.env.VITE_API_URL}/fundraisers/`;
 

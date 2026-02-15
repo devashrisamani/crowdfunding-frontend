@@ -1,16 +1,49 @@
-# React + Vite
+# Leaf a Mark — Crowdfunding Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React frontend for **Leaf a Mark**, a crowdfunding platform for sustainability and community projects. Users can browse fundraisers, create campaigns, and make pledges. The app talks to a Django REST API (separate repo) for auth, fundraisers, and pledges.
 
-Currently, two official plugins are available:
+**Target audience:** People who want to support or start environmental and community fundraisers.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Deployed project
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend:** [front end link]
+- **Backend API:** `https://crowdfundingapp-6177aeba64e5.herokuapp.com` (Heroku)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Screenshots
+
+| Title                | Screenshot                                        |
+| -------------------- | ------------------------------------------------- |
+| Homepage             | ![Homepage](./docs/screenshot-homepage.png)       |
+| Fundraisers          | ![Fundraisers](./docs/screenshot-fundraisers.png) |
+| Create fundraiser    | ![Create](./docs/screenshot-createfundraiser.png) |
+| Fundraiser + pledges | ![Detail](./docs/fundraiser-detail.png)           |
+| Login                | ![Login](./docs/screenshot-login.png)             |
+| Sign Up              | ![Sign Up](./docs/screenshot-signup.png)          |
+
+---
+
+## API endpoints (backend)
+
+| Method          | Endpoint             | Description                                                                                           |
+| --------------- | -------------------- | ----------------------------------------------------------------------------------------------------- |
+| **Auth**        |                      |                                                                                                       |
+| POST            | `/api-token-auth/`   | Login. Body: `{ "username", "password" }`. Returns `{ "token" }`.                                     |
+| **Users**       |                      |                                                                                                       |
+| POST            | `/users/`            | Register. Body: `{ "username", "password", "email?" }`.                                               |
+| GET             | `/users/me/`         | Current user (requires `Authorization: Token <token>`). Returns `{ id, username, email, ... }`.       |
+| GET             | `/users/<id>/`       | User detail by id.                                                                                    |
+| **Fundraisers** |                      |                                                                                                       |
+| GET             | `/fundraisers/`      | List all fundraisers.                                                                                 |
+| POST            | `/fundraisers/`      | Create fundraiser (auth). Body: `{ title, description, image, goal, is_open }`.                       |
+| GET             | `/fundraisers/<id>/` | Single fundraiser with nested pledges.                                                                |
+| PUT             | `/fundraisers/<id>/` | Update fundraiser (owner only).                                                                       |
+| DELETE          | `/fundraisers/<id>/` | Delete fundraiser (owner only).                                                                       |
+| **Pledges**     |                      |                                                                                                       |
+| GET             | `/pledges/`          | List pledges.                                                                                         |
+| POST            | `/pledges/`          | Create pledge (auth). Body: `{ fundraiser, amount, comment?, anonymous? }`. Supporter set from token. |
+| GET             | `/pledges/<id>/`     | Single pledge.                                                                                        |
+| PUT             | `/pledges/<id>/`     | Update pledge (supporter only). Body: `{ comment?, anonymous? }`.                                     |

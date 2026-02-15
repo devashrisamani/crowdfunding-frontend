@@ -3,13 +3,13 @@ import "./FundraiserCard.css";
 
 function FundraiserCard(props) {
   const { fundraiserData } = props;
-  const fundraiserLink = `fundraiser/${fundraiserData.id}`;
+  const fundraiserLink = `/fundraiser/${fundraiserData.id}`;
 
   return (
     <div className="fundraiser-card">
       <Link to={fundraiserLink}>
         <img
-          src={fundraiserData.image}
+          src={fundraiserData.image || "/placeholder.jpg"}
           alt={fundraiserData.title}
           onError={(e) => {
             e.target.src = "/placeholder.jpg";

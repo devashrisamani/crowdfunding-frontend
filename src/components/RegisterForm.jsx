@@ -53,59 +53,80 @@ function RegisterForm() {
         navigate("/login");
       }
     } catch (err) {
-      setErrorMessage(err.message ?? "Registration failed");
+      const msg = err.message ?? "Registration failed";
+      // Show the API error when we have one; otherwise give a helpful hint
+      if (msg === "Error trying to register" || msg === "Registration failed") {
+        setErrorMessage(
+          "Registration failed. Common reasons: this username or email is already in use, or the password doesn’t meet the requirements. Please try again.",
+        );
+      } else {
+        setErrorMessage(msg);
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
-          id="username"
-          type="text"
-          value={form.username}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="email">Email (optional):</label>
-        <input
-          id="email"
-          type="email"
-          value={form.email}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          id="password"
-          type="password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="confirmPassword">Confirm Password:</label>
-        <input
-          id="confirmPassword"
-          type="password"
-          value={form.confirmPassword}
-          onChange={handleChange}
-          required
-        />
-      </div>
+    <div className="page page--narrow">
+      <div className="card">
+        <div className="page-header">
+          <h2>Create an account</h2>
+          <p className="text-muted">
+            Join Leaf a Mark to start fundraisers and support projects.
+          </p>
+        </div>
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="form-field">
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              value={form.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-field">
+            <label htmlFor="email">Email (optional)</label>
+            <input
+              id="email"
+              type="email"
+              value={form.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-field">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-field">
+            <label htmlFor="confirmPassword">Confirm password</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Registering..." : "Register"}
-      </button>
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-    </form>
+          {errorMessage && <p className="text-error">{errorMessage}</p>}
+
+          <div className="form-actions">
+            <button className="button-primary" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Registering..." : "Register"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

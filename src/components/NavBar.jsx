@@ -8,40 +8,40 @@ function NavBar() {
 
   const handleLogout = () => {
     window.localStorage.removeItem("token");
-    setAuth({ token: null });
+    setAuth({ token: null, user: null });
     navigate("/login");
   };
 
   return (
     <div>
       <nav className="nav">
-        {/* Logo / Home link (existing, unchanged) */}
         <Link to="/" className="nav-logo">
           Leaf a Mark
         </Link>
 
-        {/* New menu items (added, not replacing anything) */}
         <div className="nav-links">
           <NavLink to="/" className="nav-link">
-            Home
+            Fundraisers
           </NavLink>
           <NavLink to="/create" className="nav-link">
-            Create Fundraiser
-          </NavLink>
-          <NavLink to="/profile" className="nav-link">
-            Profile
+            Start a fundraiser
           </NavLink>
           {auth?.token ? (
-            <button type="button" className="nav-link" onClick={handleLogout}>
-              Logout
-            </button>
+            <>
+              <NavLink to="/profile" className="nav-link">
+                Profile
+              </NavLink>
+              <button type="button" className="nav-link" onClick={handleLogout}>
+                Log out
+              </button>
+            </>
           ) : (
             <>
               <NavLink to="/login" className="nav-link">
-                Login
+                Log in
               </NavLink>
-              <NavLink to="/register" className="nav-link">
-                Register
+              <NavLink to="/register" className="nav-link nav-cta">
+                Sign up
               </NavLink>
             </>
           )}

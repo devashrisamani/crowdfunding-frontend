@@ -11,7 +11,7 @@ export default function useFundraiser(fundraiserId) {
     setIsLoading(true);
     setError(undefined);
 
-    // Here we pass the fundraiserId to the getFundraiser function.
+    // Passing the fundraiserId to the getFundraiser function.
     getFundraiser(fundraiserId)
       .then((data) => {
         setFundraiser(data);
@@ -24,7 +24,7 @@ export default function useFundraiser(fundraiserId) {
   };
 
   useEffect(() => {
-    // This time we pass the fundraiserId to the dependency array so that the hook will re-run if the fundraiserId changes.
+    // Passing fundraiserId to the dependency array so that the hook will re-run if the fundraiserId changes.
     if (fundraiserId) {
       fetchFundraiser();
     }

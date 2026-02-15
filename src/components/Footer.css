@@ -1,0 +1,61 @@
+/* Full-width footer across the whole viewport */
+.app-footer {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: var(--space-xl);
+  background: var(--color-secondary);
+  color: white;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.app-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.app-footer-logo {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  margin-bottom: var(--space-sm);
+}
+
+.app-footer-logo:hover {
+  color: white;
+  opacity: 0.9;
+}
+
+.app-footer-tagline {
+  margin: 0 0 var(--space-md);
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+.app-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.app-footer-links a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.app-footer-links a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.app-footer-copy {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}

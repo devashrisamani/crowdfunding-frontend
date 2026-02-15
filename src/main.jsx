@@ -15,6 +15,8 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { AuthProvider } from "./components/AuthProvider.jsx";
 import "./main.css";
 
+// Routes: Layout wraps all pages. ProtectedRoute redirects to login if not logged in.
+// path "*" catches any unknown URL and shows the 404 page.
 const myRouter = createBrowserRouter([
   {
     path: "/",

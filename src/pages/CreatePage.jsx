@@ -7,6 +7,7 @@ function CreatePage() {
   const navigate = useNavigate();
   const { auth } = useAuth();
 
+  // Form state: one object for all fields so we can update with handleChange
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -20,8 +21,10 @@ function CreatePage() {
 
   if (!auth?.token) {
     return (
-      <div style={{ padding: "1rem" }}>
-        <p>You need to be logged in to create a fundraiser.</p>
+      <div className="page page--narrow">
+        <div className="card">
+          <p>You need to be logged in to create a fundraiser.</p>
+        </div>
       </div>
     );
   }
@@ -39,6 +42,7 @@ function CreatePage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Check required fields before calling the API
     const missingFields = [];
     if (!form.title.trim()) missingFields.push("title");
     if (!form.description.trim()) missingFields.push("description");
@@ -82,74 +86,83 @@ function CreatePage() {
   };
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h2>Create Fundraiser</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">Title</label>
-          <input
-            id="title"
-            type="text"
-            value={form.title}
-            onChange={handleChange}
-            required
-          />
+    <div className="page page--narrow">
+      <div className="card">
+        <div className="page-header">
+          <h2>Create a new fundraiser</h2>
+          <p className="text-muted">
+            Share your story, set a goal, and invite others to support your
+            project.
+          </p>
         </div>
-
-        <div>
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            value={form.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="image">Image URL</label>
-          <input
-            id="image"
-            type="url"
-            value={form.image}
-            onChange={handleChange}
-            placeholder="https://example.com/image.jpg"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="goal">Goal amount</label>
-          <input
-            id="goal"
-            type="number"
-            min="1"
-            step="1"
-            value={form.goal}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="is_open">
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="form-field">
+            <label htmlFor="title">Title</label>
             <input
-              id="is_open"
-              type="checkbox"
-              checked={form.is_open}
+              id="title"
+              type="text"
+              value={form.title}
               onChange={handleChange}
+              required
             />
-            {"  "}
-            Fundraiser is open
-          </label>
-        </div>
+          </div>
 
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+          <div className="form-field">
+            <label htmlFor="description">Description</label>
+            <textarea
+              id="description"
+              value={form.description}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Creating..." : "Create fundraiser"}
-        </button>
-      </form>
+          <div className="form-field">
+            <label htmlFor="image">Image URL</label>
+            <input
+              id="image"
+              type="url"
+              value={form.image}
+              onChange={handleChange}
+              placeholder="https://example.com/image.jpg"
+              required
+            />
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="goal">Goal amount</label>
+            <input
+              id="goal"
+              type="number"
+              min="1"
+              step="1"
+              value={form.goal}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="is_open" className="field-inline">
+              <input
+                id="is_open"
+                type="checkbox"
+                checked={form.is_open}
+                onChange={handleChange}
+              />
+              <span>Fundraiser is open</span>
+            </label>
+          </div>
+
+          {errorMessage && <p className="text-error">{errorMessage}</p>}
+
+          <div className="form-actions">
+            <button className="button-primary" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Creating..." : "Create fundraiser"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

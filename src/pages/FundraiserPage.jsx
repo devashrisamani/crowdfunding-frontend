@@ -50,12 +50,19 @@ function FundraiserPage() {
       0,
     ) || 0;
 
-  const goal = fundraiser.goal || 0;
+  const goal = Number(fundraiser.goal) || 0;
+  const rawProgress = goal > 0 ? (totalPledged / goal) * 100 : 0;
+  // Bar width: at least 1% when there's any amount, so the bar is visible
   const progress =
-    goal > 0 ? Math.min(100, Math.round((totalPledged / goal) * 100)) : 0;
+    goal > 0 && totalPledged > 0 ? Math.max(1, Math.min(100, rawProgress)) : 0;
+  // Display: rounded whole number so we don't show long decimals (e.g. 1% not 1.111...%)
+  const progressPercent = Math.round(rawProgress);
 
   const isOwner =
     auth?.user && fundraiser.owner && fundraiser.owner === auth.user.id;
+
+  // Viewer is allowed to pledge only if logged in, not the owner, and fundraiser is open
+  const canPledge = auth?.token && !isOwner && fundraiser.is_open;
 
   const handlePledgeChange = (event) => {
     const { id, value, type, checked } = event.target;
@@ -172,17 +179,19 @@ function FundraiserPage() {
   };
 
   return (
-    <div style={{ padding: "1rem" }}>
-      {/* Image + title */}
-      {fundraiser.image && (
-        <div style={{ marginBottom: "1rem" }}>
-          <img
-            src={fundraiser.image}
-            alt={fundraiser.title}
-            style={{ maxWidth: "100%", borderRadius: "8px" }}
-          />
-        </div>
-      )}
+    <div className="page">
+      <div className="card">
+      {/* Image: use placeholder if missing or if the URL fails to load */}
+      <div style={{ marginBottom: "1rem" }}>
+        <img
+          src={fundraiser.image || "/placeholder.jpg"}
+          alt={fundraiser.title}
+          style={{ maxWidth: "100%", borderRadius: "8px" }}
+          onError={(e) => {
+            e.target.src = "/placeholder.jpg";
+          }}
+        />
+      </div>
 
       <h2>{fundraiser.title}</h2>
 
@@ -219,7 +228,7 @@ function FundraiserPage() {
           />
         </div>
 
-        <p style={{ marginTop: "0.25rem" }}>{progress}% funded</p>
+        <p style={{ marginTop: "0.25rem" }}>{progressPercent}% funded</p>
 
         <p>
           <strong>Status:</strong> {fundraiser.is_open ? "Open" : "Closed"}
@@ -237,6 +246,7 @@ function FundraiserPage() {
         <div style={{ marginBottom: "1rem" }}>
           <button
             type="button"
+            className="button-secondary"
             onClick={() => navigate(`/fundraiser/${fundraiser.id}/edit`)}
             style={{ marginRight: "0.5rem" }}
           >
@@ -244,25 +254,28 @@ function FundraiserPage() {
           </button>
           <button
             type="button"
+            className="button-secondary"
             onClick={handleDelete}
             disabled={isDeleting}
             style={{ marginRight: "0.5rem" }}
           >
             {isDeleting ? "Deleting..." : "Delete fundraiser"}
           </button>
-          {deleteError && <p style={{ color: "red" }}>{deleteError}</p>}
+          {deleteError && <p className="text-error">{deleteError}</p>}
         </div>
       )}
 
       {/* Pledges */}
-      <h3>Pledges</h3>
+          <h3>Pledges</h3>
       {fundraiser.pledges && fundraiser.pledges.length > 0 ? (
         <ul>
           {fundraiser.pledges.map((pledge, index) => {
-            // If your backend supports anonymous + comment
+            // Use username when available, otherwise fall back to supporter id
+            const displaySupporter =
+              pledge.supporter_username || pledge.supporter;
             const supporterName = pledge.anonymous
               ? "Anonymous"
-              : pledge.supporter;
+              : displaySupporter;
             const isSupporterOwner =
               auth?.user && pledge.supporter === auth.user.id;
             return (
@@ -302,13 +315,18 @@ function FundraiserPage() {
                           </label>
                         </div>
                         {editError && (
-                          <p style={{ color: "red" }}>{editError}</p>
+                          <p className="text-error">{editError}</p>
                         )}
-                        <button type="submit" disabled={isSavingEdit}>
+                        <button
+                          className="button-secondary"
+                          type="submit"
+                          disabled={isSavingEdit}
+                        >
                           {isSavingEdit ? "Saving..." : "Save"}
                         </button>
                         <button
                           type="button"
+                          className="button-secondary"
                           onClick={() => setEditingPledgeId(null)}
                           style={{ marginLeft: "0.5rem" }}
                         >
@@ -333,12 +351,12 @@ function FundraiserPage() {
         <p>No pledges yet.</p>
       )}
 
-      {/* Pledge form (only when logged in) */}
-      {auth?.token ? (
+      {/* Pledge form (only when allowed) */}
+      {canPledge ? (
         <div style={{ marginTop: "1.5rem" }}>
           <h3>Make a pledge</h3>
-          <form onSubmit={handlePledgeSubmit}>
-            <div>
+          <form className="form" onSubmit={handlePledgeSubmit}>
+            <div className="form-field">
               <label htmlFor="amount">Amount</label>
               <input
                 id="amount"
@@ -350,7 +368,7 @@ function FundraiserPage() {
                 required
               />
             </div>
-            <div>
+            <div className="form-field">
               <label htmlFor="comment">Comment (optional)</label>
               <textarea
                 id="comment"
@@ -358,31 +376,39 @@ function FundraiserPage() {
                 onChange={handlePledgeChange}
               />
             </div>
-            <div>
-              <label htmlFor="anonymous">
+            <div className="form-field">
+              <label htmlFor="anonymous" className="field-inline">
                 <input
                   id="anonymous"
                   type="checkbox"
                   checked={pledge.anonymous}
                   onChange={handlePledgeChange}
                 />
-                {"  "}
-                Make this pledge anonymous
+                <span>Make this pledge anonymous</span>
               </label>
             </div>
 
-            {pledgeError && <p style={{ color: "red" }}>{pledgeError}</p>}
+            {pledgeError && <p className="text-error">{pledgeError}</p>}
 
-            <button type="submit" disabled={isSubmittingPledge}>
-              {isSubmittingPledge ? "Submitting pledge..." : "Submit pledge"}
-            </button>
+            <div className="form-actions">
+              <button
+                className="button-primary"
+                type="submit"
+                disabled={isSubmittingPledge}
+              >
+                {isSubmittingPledge ? "Submitting pledge..." : "Submit pledge"}
+              </button>
+            </div>
           </form>
         </div>
       ) : (
         <p style={{ marginTop: "1rem" }}>
-          Please log in to make a pledge.
+          {auth?.token
+            ? "You can't pledge to your own fundraiser or this fundraiser is closed."
+            : "Please log in to make a pledge."}
         </p>
       )}
+      </div>
     </div>
   );
 }

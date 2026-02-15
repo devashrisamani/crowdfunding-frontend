@@ -1,38 +1,73 @@
+/* Universal nav: same look as welcome page across all pages */
 .nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: rgba(255, 255, 255, 0.98);
   border-bottom: 1px solid var(--color-border);
-  background: var(--color-background);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
 }
 
 .nav-logo {
+  font-size: 1.35rem;
   font-weight: 700;
-  text-decoration: none;
   color: var(--color-secondary);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.nav-logo:hover {
+  color: var(--color-secondary);
+  opacity: 0.9;
 }
 
 .nav-links {
   display: flex;
-  gap: var(--space-sm);
+  align-items: center;
+  gap: var(--space-lg);
 }
 
-.nav a {
+.nav-link {
   text-decoration: none;
-  /* color: var(--color-text); */
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-weight: 500;
   padding: 6px 10px;
   border-radius: var(--radius-sm);
+  transition: background 0.15s ease, color 0.15s ease;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
 }
 
-.nav a:hover {
-  background: var(--color-muted);
+.nav-link:hover {
+  color: var(--color-primary);
+  background: rgba(46, 125, 50, 0.08);
 }
 
-/* Active link highlight (if you later use NavLink) */
 .nav-link.active {
-  background: var(--color-muted);
+  color: var(--color-primary);
+  background: rgba(46, 125, 50, 0.08);
   font-weight: 600;
+}
+
+/* Sign up / Register as primary button when not logged in */
+.nav-link.nav-cta {
+  background: var(--color-primary);
+  color: white;
+  padding: 8px 16px;
+}
+
+.nav-link.nav-cta:hover {
+  background: var(--color-secondary);
+  color: white;
 }
 
 /* Mobile */
@@ -41,14 +76,18 @@
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-sm);
+    padding: var(--space-md);
   }
 
   .nav-links {
     flex-direction: column;
     width: 100%;
+    gap: var(--space-sm);
   }
 
-  .nav a {
+  .nav-link {
     width: 100%;
+    display: block;
+    text-align: left;
   }
 }

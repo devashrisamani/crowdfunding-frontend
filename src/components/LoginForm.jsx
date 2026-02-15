@@ -58,32 +58,45 @@ function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          value={credentials.username}
-          onChange={handleChange}
-        />
-      </div>
+    <div className="page page--narrow">
+      <div className="card">
+        <div className="page-header">
+          <h2>Log in</h2>
+          <p className="text-muted">
+            Access your account to create and support fundraisers.
+          </p>
+        </div>
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="form-field">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              value={credentials.username}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          value={credentials.password}
-          onChange={handleChange}
-        />
-      </div>
+          <div className="form-field">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={credentials.password}
+              onChange={handleChange}
+            />
+          </div>
 
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Logging in..." : "Login"}
-      </button>
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-    </form>
+          {errorMessage && <p className="text-error">{errorMessage}</p>}
+
+          <div className="form-actions">
+            <button className="button-primary" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Logging in..." : "Login"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 
