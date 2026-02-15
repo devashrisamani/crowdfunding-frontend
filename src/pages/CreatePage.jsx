@@ -42,10 +42,10 @@ function CreatePage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Check required fields before calling the API (image is optional – we use placeholder if empty)
     const missingFields = [];
     if (!form.title.trim()) missingFields.push("title");
     if (!form.description.trim()) missingFields.push("description");
+    if (!form.image.trim()) missingFields.push("image URL");
     if (!form.goal) missingFields.push("goal");
 
     if (missingFields.length > 0) {
@@ -67,7 +67,7 @@ function CreatePage() {
       const newFundraiser = await postFundraiser(auth.token, {
         title: form.title,
         description: form.description,
-        image: form.image.trim() || "/placeholder.jpg",
+        image: form.image.trim(),
         goal: goalNumber,
         is_open: form.is_open,
       });
@@ -117,13 +117,13 @@ function CreatePage() {
           </div>
 
           <div className="form-field">
-            <label htmlFor="image">Image URL (optional)</label>
+            <label htmlFor="image">Image URL</label>
             <input
               id="image"
               type="url"
               value={form.image}
               onChange={handleChange}
-              placeholder="Leave blank to use placeholder image"
+              required
             />
           </div>
 

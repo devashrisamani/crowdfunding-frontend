@@ -8,22 +8,22 @@ A React frontend for **Leaf a Mark**, a crowdfunding platform for sustainability
 
 ## Deployed project
 
-- **Frontend:** [front end link]
+- **Frontend:** [https://6991a6f02b908e00081c70a3--leafamark.netlify.app
 - **Backend API:** `https://crowdfundingapp-6177aeba64e5.herokuapp.com` (Heroku)
 
 ### Page links (Netlify)
 
-| Page              | Path                  | Link |
-| ----------------- | --------------------- | ---- |
-| About / Welcome   | `/welcome`            |      |
-| Home (Fundraisers) | `/`                   |      |
-| Login             | `/login`              |      |
-| Register          | `/register`           |      |
-| Create fundraiser  | `/create`             |      |
-| Profile           | `/profile`            |      |
-| Fundraiser detail  | `/fundraiser/:id`    |      |
-| Edit fundraiser   | `/fundraiser/:id/edit` |    |
-| 404               | (any unknown path)    |      |
+| Page               | Path                   | Link                                                                       |
+| ------------------ | ---------------------- | -------------------------------------------------------------------------- |
+| About / Welcome    | `/welcome`             | https://6991a6f02b908e00081c70a3--leafamark.netlify.app/welcome            |
+| Home (Fundraisers) | `/`                    | https://6991a6f02b908e00081c70a3--leafamark.netlify.app                    |
+| Login              | `/login`               | https://6991a6f02b908e00081c70a3--leafamark.netlify.app/login              |
+| Sign Up            | `/register`            | https://6991a6f02b908e00081c70a3--leafamark.netlify.app/register           |
+| Create fundraiser  | `/create`              | https://6991a6f02b908e00081c70a3--leafamark.netlify.app/create             |
+| Profile            | `/profile`             | https://6991a6f02b908e00081c70a3--leafamark.netlify.app/profile            |
+| Fundraiser detail  | `/fundraiser/:id`      | https://6991a6f02b908e00081c70a3--leafamark.netlify.app/fundraiser/1       |
+| Edit fundraiser    | `/fundraiser/:id/edit` | https://6991a6f02b908e00081c70a3--leafamark.netlify.app/fundraiser/38/edit |
+| 404                | (any unknown path)     | https://6991a6f02b908e00081c70a3--leafamark.netlify.app/hello              |
 
 ---
 
