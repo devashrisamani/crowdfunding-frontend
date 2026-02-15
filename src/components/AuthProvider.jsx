@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import getCurrentUser from "../api/get-current-user.js";
 
 // Create the auth context that will be shared through the app
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
 // Provider component that keeps auth state (token + user)

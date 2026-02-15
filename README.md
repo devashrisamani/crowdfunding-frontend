@@ -8,8 +8,8 @@ A React frontend for **Leaf a Mark**, a crowdfunding platform for sustainability
 
 ## Deployed project
 
-- **Frontend:** [https://6991a6f02b908e00081c70a3--leafamark.netlify.app
-- **Backend API:** `https://crowdfundingapp-6177aeba64e5.herokuapp.com` (Heroku)
+- **Frontend:** `https://6991a6f02b908e00081c70a3--leafamark.netlify.app`
+- **Backend API:** `https://crowdfundingapp-6177aeba64e5.herokuapp.com` SS
 
 ### Page links (Netlify)
 

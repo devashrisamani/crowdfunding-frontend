@@ -55,7 +55,7 @@ function FundraiserPage() {
   // Bar width: at least 1% when there's any amount, so the bar is visible
   const progress =
     goal > 0 && totalPledged > 0 ? Math.max(1, Math.min(100, rawProgress)) : 0;
-  // Display: rounded whole number so we don't show long decimals (e.g. 1% not 1.111...%)
+  // Display: rounded whole number so it does not show long decimals (e.g. 1% not 1.111...%)
   const progressPercent = Math.round(rawProgress);
 
   const isOwner =
